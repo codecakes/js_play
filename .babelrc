@@ -1,0 +1,8 @@
+{
+    "presets": ["es2015"],
+    "plugins": [
+	"transform-regenerator",
+	"check-es2015-constants",
+	"transform-strict-mode"
+	]
+}
