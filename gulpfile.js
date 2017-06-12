@@ -6,29 +6,24 @@ const
 	uglify = require('gulp-uglify'),
 	source = require('vinyl-source-stream'),
 	browserify = require('browserify'),
-	path = require('path'),
-	fl = path.resolve("./parse.js"),
+	glob = require('glob'),
+	fl = glob.sync("!(gulpfile).js"),
 	minfy = function minfy() {
-		return browserify()
+		return browserify({entries: fl})
 		.transform(babelify, {
 			global: true,
 			presets: ['es2015', 'react'],
 			only: "*.js",
-			ignore: "*.bundle.js",
-			/**
-			plugins:[
-			['strictMode', { strict: false }]
-			]
-			*/
+			ignore: ["*.bundle.js", "gulpfile.js", "./gulpfile.js"]
 		})
 		.bundle()
-		.pipe(source(fl))
-		//.pipe(uglify())
+		// .pipe(uglify())
+		.pipe(source("app.bundle.js"))
 		.pipe(gulp.dest('./bundle'));
 	};
 
 gulp.task('bundle', function bundle() {
-	return minfy();
+	minfy();
 });
 
 
